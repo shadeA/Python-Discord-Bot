@@ -4,7 +4,7 @@ import argparse
 import logging
 import os
 from audio import play_audio
-from steamWEBAPI import *
+from steamWEBAPI import steam
 
 
 logging.basicConfig(level=logging.INFO)
@@ -12,8 +12,8 @@ log = logging.getLogger(__name__)
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-username", help='The username of the Discord account you want to use')
-parser.add_argument("-password", help='The password of the Discord account you want to use.')
+parser.add_argument("username", help='The username of the Discord account you want to use')
+parser.add_argument("password", help='The password of the Discord account you want to use.')
 args = parser.parse_args()
 
 clearconsole = lambda: os.system('cls')
@@ -98,4 +98,4 @@ class Bot(discord.Client):
 
 
 bot = Bot()
-bot.run(args[0], args[1])
+bot.run(args.username, args.password)
