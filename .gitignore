@@ -217,3 +217,5 @@ pip-log.txt
 *.sublime-project
 *.sublime-workspace
 
+failedCore.py
+example.py
