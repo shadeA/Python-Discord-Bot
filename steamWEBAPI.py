@@ -4,7 +4,7 @@ import discord
 import logging
 import datetime
 import json
-from text import *
+from errors import *
 
 logging.basicConfig(level=logging.INFO)
 
@@ -36,14 +36,14 @@ async def steam(data, bot):
         # parameters["appid"] = game
 
     except ValueError: #if an option is not found is not found
-        _send(bot.message.author, error_master.format(bot.message.author.name, errorText_Options))
+        _send(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Options))
     
     except IndexError: #if an option param is not found
-        _send(bot.message.author, error_master.format(bot.message.author.name, errorText_Param))
+        _send(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Param))
         # Implemented thee new error system
     except Exception as e:
         log.error(e)
-        _send(bot.message.author, error_unknown.format(bot.message.author, e)) #lets enable debugging by default
+        _send(bot.message.author, steam_errorUnknown.format(bot.message.author, e)) #lets enable debugging by default
 
 
     # if mode not in {'update', 'profile', 'playtime' }: 

@@ -70,10 +70,8 @@ class Bot(discord.Client):
 
             await self.delete_message(message)
 
-            if 'youtube' in playItem:
-                await play_audio(playItem, 'url', self)
-            else: #This is terrible and I feeel absolutely terrible about it.
-                await play_audio(playItem, 'file', self)
+            await play_audio(playItem, self)
+
 
         elif message.content.startswith('.stop') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)):
             await self.delete_message(message)
@@ -89,6 +87,7 @@ class Bot(discord.Client):
             data = data.split()
 
             await steam(data, self)
+            await self.delete_message(message)
 
     async def on_ready(self):
         print('Logged in as')
