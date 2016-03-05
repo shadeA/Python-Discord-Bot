@@ -4,37 +4,42 @@ import discord
 import logging
 import livestreamer
 from errors import *
-
+from CustomName import find_song, save_song
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 
 async def play_audio(message, bot):
-    _send = await bot.send_message()
-    url = None
-    custom_name = None
+
+
     message = message.split()
-    try:
-        url = message[0]
-        custom_name = message[1]
-    except IndexError:
-        log.info("User did not supply a custom name")
+
+    if 'youtube' not in message or 'twitch' not in message:
+        try:
+            url = await find_song(message)
+        except Exception as e:
+            log.error(e)
+            await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
 
 
+    elif 'youtube' in message or 'twitch' in message:
 
+        try:
+            url = message[0]
+            name = message[1]
+            song.save_song(url, name)
+        except:
+            log.info('{user} did not pass a custom name'.format(bot.message.author.name))
 
-
-    if 'youtube' in message:
-        bot.player = await bot.voice.create_ytdl_player(message)
+        bot.player = await bot.voice.create_ytdl_player(url)
         bot.player.start()
+        if bot.current is not None:
+            bot.previous = bot.current
+
         bot.current = bot.player.title
-        await _send(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
-            # I send client.current rather then client.player.title for consistency. Oddly enough, I never really learned if this is good or bad. Just seems right. Hopefully it is.
-        return
+        await bot.send_message(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
 
-    if bot.current is not None: #If a previous song has been played
-        bot.previous = bot.current #Replace old previous song with the current song to prepare for the next song
 
-    if bot.player is not None and bot.player.is_playing():
-        bot.player.stop()
-        logging.info('Stopped {} from playing'.format(bot.current))
+
+
+    

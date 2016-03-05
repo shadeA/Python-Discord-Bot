@@ -27,7 +27,8 @@ helpText = "{user}, the commands/options are as follow:\n"
 
 audio_error = "{user}, there was an error playing your song\n"
 "make sure that {problem}"
+
 audio_errorUnknown = "{user}, there was an unknown audio error."
 
-audio_errorText_URL = "the passed url is from a valid site from this list:\n"
-"       https://github.com/rg3/youtube-dl/blob/master/docs/supportedsites.md"
+audio_errorText_URL = "you are using either a youtube.com URL, a twitch.com URL, or a valid song name. Use .songlist to get a list of song names."
+

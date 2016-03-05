@@ -221,3 +221,4 @@ failedCore.py
 example.py
 *.pickle
 songList.txt
+songList.json
