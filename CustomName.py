@@ -6,7 +6,7 @@ import json
 class song(object):
     """
     The class which handles saving, loading, 
-    and storing custom song names
+    and storing custom song names.
     """
 
     def __init__(self, name):
