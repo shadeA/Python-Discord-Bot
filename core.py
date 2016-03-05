@@ -39,7 +39,6 @@ class Bot(discord.Client):
         self.current = None
         self.previous = None
         self.file_name = None
-        self.skip = True
 
 
     async def on_message(self, message): #On a message
