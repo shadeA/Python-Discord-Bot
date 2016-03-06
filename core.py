@@ -7,7 +7,7 @@ from audio import play_audio
 from steamWEBAPI import steam
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
 log = logging.getLogger(__name__)
 
 
@@ -39,7 +39,6 @@ class Bot(discord.Client):
         self.current = None
         self.previous = None
         self.file_name = None
-        self.skip = True
 
 
     async def on_message(self, message): #On a message

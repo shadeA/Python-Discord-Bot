@@ -3,32 +3,45 @@ import youtube_dl
 import discord
 import logging
 import livestreamer
+from errors import *
+from CustomName import find_song, save_song
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
+log = logging.getLogger(__name__)
 
-logging.basicConfig(level=logging.INFO)
 
 async def play_audio(message, bot):
-    _send = bot.send_message()
 
-    if bot.player is not None and bot.player.is_playing():
-        bot.player.stop()
-        logging.info('Stopped {} from playing'.format(bot.current))
+    if 'youtube' not in message:
 
-    if bot.current is not None: #If a previous song has been played
-        bot.previous = bot.current #Replace old previous song with the current song to prepare for the next song
+        message = message.split()
+        url = await find_song(message[0])
+        if url is None:
+            return
+        await play(url, bot)
+        return
+        #await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
 
-    if 'youtube' in message:
+
+    elif 'youtube' in message:
+
         message = message.split()
         try:
             url = message[0]
             name = message[1]
+            await save_song(url, name)
         except IndexError:
-            _send(bot.message.author, audio_error)
-
-        bot.player = await bot.voice.create_ytdl_player(message)
-        bot.player.start()
-        bot.current = bot.player.title
-        await bot.send_message(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
-            # I send client.current rather then client.player.title for consistency. Oddly enough, I never really learned if this is good or bad. Just seems right. Hopefully it is.
+            log.info('{user} did not pass a custom name'.format(user=bot.message.author.name))
+            
+        await play(url, bot)
         return
 
+async def play(url, bot):
 
+    bot.player = await bot.voice.create_ytdl_player(url)
+    bot.player.start()
+    if bot.current is not None:
+        bot.previous = bot.current
+
+    bot.current = bot.player.title
+    await bot.send_message(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
+    

@@ -21,12 +21,11 @@ parameters = {"appid":None, "count":"2", "maxlength":"300", "format":"json"}
 
 
 async def steam(data, bot):
-    _send = await bot.send_message()
     if data is None: 
         log.critical("No data was passed") #This is a safety function. It is never actually going to be triggered.
 
     if '-help' in data:
-        _send(bot.message.author, )
+        await bot.send_message(bot.message.author, )
     data = [item.lower() for item in data] #Translate the dict to lower so that both -ID and -id work. Thanks to Eric for pointing this out not even a second after I opeened the commands
 
 
@@ -36,14 +35,14 @@ async def steam(data, bot):
         # parameters["appid"] = game
 
     except ValueError: #if an option is not found is not found
-        _send(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Options))
+        await bot.send_message(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Options))
     
     except IndexError: #if an option param is not found
-        _send(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Param))
+        await bot.send_message(bot.message.author, steam_error.format(bot.message.author.name, steam_errorText_Param))
         # Implemented thee new error system
     except Exception as e:
         log.error(e)
-        _send(bot.message.author, steam_errorUnknown.format(bot.message.author, e)) #lets enable debugging by default
+        await bot.send_message(bot.message.author, steam_errorUnknown.format(bot.message.author, e)) #lets enable debugging by default
 
 
     # if mode not in {'update', 'profile', 'playtime' }: 
