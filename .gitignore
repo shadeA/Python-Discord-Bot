@@ -222,3 +222,4 @@ example.py
 *.pickle
 songList.txt
 songList.json
+run.bat
