@@ -7,8 +7,9 @@ from audio import play_audio
 from steamWEBAPI import steam
 
 
+log = logging.getLogger('core')
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
-log = logging.getLogger(__name__)
+
 
 
 parser = argparse.ArgumentParser()
@@ -44,6 +45,7 @@ class Bot(discord.Client):
     async def on_message(self, message): #On a message
         #Start checking which command it was. Would like to use a switch statement but python doesnt have one.
         self.message = message
+
 
         if message.content.startswith('.join') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)): #When telling the bot to join a channel
             channel_name = message.content[5:].strip() #Format the message
