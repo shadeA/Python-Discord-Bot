@@ -5,6 +5,7 @@ import logging
 import os
 from audio import play_audio
 from steamWEBAPI import steam
+from tokenObj import createUser
 
 
 log = logging.getLogger('core')
@@ -88,6 +89,11 @@ class Bot(discord.Client):
             data = data.split()
 
             await steam(data, self)
+            await self.delete_message(message)
+        elif message.content.startswith('.token') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)):
+            data = message.content[6:].strip()
+            data = data.split()
+            await createUser(data)
             await self.delete_message(message)
 
     async def on_ready(self):

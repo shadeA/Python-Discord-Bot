@@ -11,6 +11,7 @@ async def check(user):
     """
     A function that checks the tokens.json for the settings of a user
     """
+
     try:
         with open('token.json', 'x') as file:
             pass
@@ -30,6 +31,17 @@ async def check(user):
         amount = jsonObj[user.name.lower()][0]['amount'] #This is a int
         flags  = jsonObj[user.name.lower()][1]['flags'] #This is a list
     except KeyError:
-        'here'
+        #This means there is not a user by this name
+        " "
     except Exception as e: # Unknown Error
         log.error(e)
+
+
+async def createUser(args):
+    ""
+
+
+
+
+async def parse(args):
+    ""

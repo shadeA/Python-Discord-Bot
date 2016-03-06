@@ -5,7 +5,7 @@ import logging
 import livestreamer
 from errors import *
 from CustomName import find_song, save_song
-from tokenAmount import check
+from tokenObj import check
 
 log = logging.getLogger('audio')
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(content)s")
