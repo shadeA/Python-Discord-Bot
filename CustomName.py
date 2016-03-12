@@ -4,7 +4,7 @@ import json
 import logging
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
-log = logging.getLogger(__name__)
+log = logging.getLogger('songnames')
 
 
 

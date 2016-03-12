@@ -5,29 +5,40 @@ import logging
 import livestreamer
 from errors import *
 from CustomName import find_song, save_song
-logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
-log = logging.getLogger(__name__)
+from tokenObj import check
+
+log = logging.getLogger('audio')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(content)s")
 
 
-async def play_audio(message, bot):
 
-    if 'youtube' not in message:
+async def play_audio(content, bot):
+    
+    try:
+        await check(bot.message.author)
+    except ValueError:
+        log.info("User doesn't have enough tokens to play a song")
+        bot.send_message(bot.message.author, token_error.format(user=bot.message.author.name))
+        return
 
-        message = message.split()
-        url = await find_song(message[0])
+
+    if 'youtube' not in content:
+
+        content = content.split()
+        url = await find_song(content[0])
         if url is None:
             return
         await play(url, bot)
         return
-        #await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
+        await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
 
 
-    elif 'youtube' in message:
+    elif 'youtube' in content:
 
-        message = message.split()
+        content = content.split()
         try:
-            url = message[0]
-            name = message[1]
+            url = content[0]
+            name = content[1]
             await save_song(url, name)
         except IndexError:
             log.info('{user} did not pass a custom name'.format(user=bot.message.author.name))

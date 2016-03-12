@@ -6,9 +6,10 @@ import datetime
 import json
 from errors import *
 
-logging.basicConfig(level=logging.INFO)
+log = logging.getLogger('steam')
+logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lineno)d:%(message)s")
 
-log = logging.getLogger(__name__)
+
 
 #Remember to add a '-debug' opt-in command so that the error can be directly send to the user.
 #Also add either a dedicated api key or make the user submit there own. It would have to be through pm 
