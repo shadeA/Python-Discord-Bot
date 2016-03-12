@@ -1,0 +1,17 @@
+{
+        "daxter249": 
+            [
+                {"amount": 3},
+                {"flags" : []},
+                {"time"  : ""},
+                {"base_amount" : 3}
+            ],
+
+        "alyumair":
+            [
+                {"amount": 3},
+                {"flags" : []},
+                {"time"  : ""},
+                {"base_amount" : 3}
+            ]
+}

@@ -14,8 +14,10 @@ logging.basicConfig(level=logging.INFO, format="%(levelname)s:%(filename)s:%(lin
 
 async def play_audio(content, bot):
     
-
-    await check(bot.message.author)
+    try:
+        await check(bot.message.author)
+    except ValueError:
+        log.e("ValueError")
 
 
 #     if 'youtube' not in content:
