@@ -5,7 +5,7 @@ import logging
 import os
 from audio import play_audio
 from steamWEBAPI import steam
-from tokenObj import createUser
+from tokenObj import script_token
 
 
 log = logging.getLogger('core')
@@ -48,7 +48,7 @@ class Bot(discord.Client):
         self.message = message
 
 
-        if message.content.startswith('.join') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)): #When telling the bot to join a channel
+        if message.content.startswith('.join') and any(message.author.roles[x].name == 'Can play music' for x in range(1, 10)): #When telling the bot to join a channel
             channel_name = message.content[5:].strip() #Format the message
             check = lambda c: c.name == channel_name and c.type == discord.ChannelType.voice
             channel = discord.utils.find(check, message.server.channels)
@@ -62,7 +62,7 @@ class Bot(discord.Client):
 
             await self.join_voice_channel(channel)
             # self.starter = message.author
-        elif message.content.startswith('.play') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)):
+        elif message.content.startswith('.play') and any(message.author.roles[x].name == 'Can play music' for x in range(1, 10)):
             if not self.is_voice_connected():
                 log.error('Not in a voice channel')
                 log.debug('The user was not in a voice channel and attempted to play audio. They should get their memory checked.')
@@ -75,7 +75,7 @@ class Bot(discord.Client):
             await play_audio(playItem, self)
 
 
-        elif message.content.startswith('.stop') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)):
+        elif message.content.startswith('.stop') and any(message.author.roles[x].name == 'Can play music' for x in range(1, 10)):
             await self.delete_message(message)
 
             if self.player is not None and self.player.is_playing():
@@ -95,6 +95,14 @@ class Bot(discord.Client):
             data = data.split()
             await createUser(data)
             await self.delete_message(message)
+        elif message.content.startswith('.script') and any(message.author.roles[x].name == 'admin' for x in range(1, 10)):
+            data = message.content[7:].strip()
+
+            if message.content.startswith('token'):
+                data = data[5:].strip()
+                await script_token(data)
+            await self.delete_message(message)
+
 
     async def on_ready(self):
         print('Logged in as')

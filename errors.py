@@ -32,3 +32,5 @@ audio_errorUnknown = "{user}, there was an unknown audio error."
 audio_errorText_URL = """you are using either a youtube.com URL, a twitch.com URL,
  or a valid song name. Use .songlist to get a list of song names."""
 
+token_error = "{user}, you do not have enough tokens to play a song."
+

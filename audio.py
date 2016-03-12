@@ -17,40 +17,42 @@ async def play_audio(content, bot):
     try:
         await check(bot.message.author)
     except ValueError:
-        log.e("ValueError")
+        log.info("User doesn't have enough tokens to play a song")
+        bot.send_message(bot.message.author, token_error.format(user=bot.message.author.name))
+        return
 
 
-#     if 'youtube' not in content:
+    if 'youtube' not in content:
 
-#         content = content.split()
-#         url = await find_song(content[0])
-#         if url is None:
-#             return
-#         await play(url, bot)
-#         return
-#         #await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
+        content = content.split()
+        url = await find_song(content[0])
+        if url is None:
+            return
+        await play(url, bot)
+        return
+        await bot.send_message(bot.message.author, audio_error.format(user=bot.message.author.name, problem=audio_errorText_URL))
 
 
-#     elif 'youtube' in content:
+    elif 'youtube' in content:
 
-#         content = content.split()
-#         try:
-#             url = content[0]
-#             name = content[1]
-#             await save_song(url, name)
-#         except IndexError:
-#             log.info('{user} did not pass a custom name'.format(user=bot.message.author.name))
+        content = content.split()
+        try:
+            url = content[0]
+            name = content[1]
+            await save_song(url, name)
+        except IndexError:
+            log.info('{user} did not pass a custom name'.format(user=bot.message.author.name))
             
-#         await play(url, bot)
-#         return
+        await play(url, bot)
+        return
 
-# async def play(url, bot):
+async def play(url, bot):
 
-#     bot.player = await bot.voice.create_ytdl_player(url)
-#     bot.player.start()
-#     if bot.current is not None:
-#         bot.previous = bot.current
+    bot.player = await bot.voice.create_ytdl_player(url)
+    bot.player.start()
+    if bot.current is not None:
+        bot.previous = bot.current
 
-#     bot.current = bot.player.title
-#     await bot.send_message(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
-#     
+    bot.current = bot.player.title
+    await bot.send_message(bot.message.channel, "{userName} started playing {songName}".format(userName=bot.message.author.name, songName=bot.current))
+    
